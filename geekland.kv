@@ -1,0 +1,119 @@
+#:kivy 1.0.9
+#:import gmtime time.gmtime
+#:import strftime time.strftime
+
+<Spacer@Widget>:
+	disabled: True
+
+<VideoButton@Button>:
+#	canvas:
+#		Rectangle:
+#			source: '/images/glyphicons-171-step-backward.png'
+#			pos: self.center
+#			size: 30,30
+	font_size: '50sp'
+	background_color: (1,1,1,0.7)
+
+<VideoPanel>:
+	BoxLayout:
+
+		BoxLayout:
+			orientation: 'vertical'
+			GridLayout:
+				cols:3
+				Spacer:
+				VideoButton:
+					text: '^'
+					on_press: root.kodiRemote('Input.Up')
+				Spacer:
+				VideoButton:
+					text: '<'
+					on_press: root.kodiRemote('Input.Left')
+				VideoButton:
+					text: 'ok'
+					on_press: root.kodiRemote('Input.Select')
+				VideoButton:
+					text: '>'
+					on_press: root.kodiRemote('Input.Right')
+				Spacer:
+				VideoButton:
+					text: 'v'
+					on_press: root.kodiRemote('Input.Down')
+
+			Slider:
+				size_hint_y: 0.1
+
+			BoxLayout:
+				size_hint_y: 0.1
+				Button:
+					text: 'l<'
+					on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
+				Button:
+					text: '<<'
+					on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'decrement'})
+				Button:
+					text: 'play'
+					on_press: root.kodiRemote('Player.PlayPause', {'playerid': 1})
+				Button:
+					text: 'stop'
+					on_press: root.kodiRemote('Player.Stop', {'playerid': 1})
+				Button:
+					text: '>>'
+					on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'increment'})
+				Button:
+					text: '>l'
+					on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'next'})
+
+		BoxLayout:
+			size_hint_x: 0.2
+			orientation: 'vertical'
+			Button:
+				text: 'home'
+				on_press: root.kodiRemote('Input.Home')
+			Button:
+				text: 'back'
+				on_press: root.kodiRemote('Input.Back')
+			Button:
+				text: 'osd'
+				on_press: root.kodiRemote('Input.ShowOSD')
+			Button:
+				text: 'info'
+				on_press: root.kodiRemote('Input.Info')
+			Button:
+				text: 'mute'
+				on_press: root.kodiRemote('Application.SetMute')
+			Button:
+				text: 'volume +'
+				on_press: root.kodiRemote('Application.SetVolume', {'volume': 'increment'})
+			Button:
+				text: 'volume -'
+				on_press: root.kodiRemote('Application.SetMute', {'volume': 'decrement'})
+			Button:
+				text: 'zoom'
+			Button:
+				text: 'sous-titres'
+
+# --------------------------------------
+Accordion:
+
+	canvas.before:
+		Color:
+			rgb: .6, .6, .6
+		Rectangle:
+			size: self.size
+			source: 'images/background.png'
+
+	AccordionItem:
+		title: 'Infos'
+		Button:
+			text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+	AccordionItem:
+		title: 'Video'
+		VideoPanel:
+	AccordionItem:
+		title: 'Lumières'
+		ColorPicker:
+	AccordionItem:
+		title: 'Alarme'
+	AccordionItem:
+		title: 'Méteo'
