@@ -81,13 +81,13 @@
 				on_press: root.kodiRemote('Input.Info')
 			Button:
 				text: 'mute'
-				on_press: root.kodiRemote('Application.SetMute')
+				on_press: root.kodiRemote('Application.SetMute', {'mute': 'toggle'})
 			Button:
 				text: 'volume +'
 				on_press: root.kodiRemote('Application.SetVolume', {'volume': 'increment'})
 			Button:
 				text: 'volume -'
-				on_press: root.kodiRemote('Application.SetMute', {'volume': 'decrement'})
+				on_press: root.kodiRemote('Application.SetVolume', {'volume': 'decrement'})
 			Button:
 				text: 'zoom'
 			Button:
