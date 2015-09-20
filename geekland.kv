@@ -1,6 +1,7 @@
 #:kivy 1.0.9
 #:import gmtime time.gmtime
 #:import strftime time.strftime
+#:import Light phue.Light
 
 
 # --------------------------------------
@@ -12,86 +13,143 @@
 
 <VideoButton@Button>:
 	font_size: '50sp'
-	background_color: (1,1,1,0.7)
+	background_color: (0.5, 0.5, 0.5, 0.5)
 
 <VideoPanel>:
+	padding: 5
+	spacing: 5
+
 	BoxLayout:
+		orientation: 'vertical'
+		GridLayout:
+			cols:3
+			spacing: 5
+			Spacer:
+			VideoButton:
+				text: '^'
+				on_press: root.kodiRemote('Input.Up')
+			Spacer:
+			VideoButton:
+				text: '<'
+				on_press: root.kodiRemote('Input.Left')
+			VideoButton:
+				text: 'ok'
+				on_press: root.kodiRemote('Input.Select')
+			VideoButton:
+				text: '>'
+				on_press: root.kodiRemote('Input.Right')
+			Spacer:
+			VideoButton:
+				text: 'v'
+				on_press: root.kodiRemote('Input.Down')
+
+		Slider:
+			size_hint_y: 0.1
 
 		BoxLayout:
-			orientation: 'vertical'
-			GridLayout:
-				cols:3
-				Spacer:
-				VideoButton:
-					text: '^'
-					on_press: root.kodiRemote('Input.Up')
-				Spacer:
-				VideoButton:
-					text: '<'
-					on_press: root.kodiRemote('Input.Left')
-				VideoButton:
-					text: 'ok'
-					on_press: root.kodiRemote('Input.Select')
-				VideoButton:
-					text: '>'
-					on_press: root.kodiRemote('Input.Right')
-				Spacer:
-				VideoButton:
-					text: 'v'
-					on_press: root.kodiRemote('Input.Down')
+			size_hint_y: 0.1
+			spcing: 5
+			Button:
+				text: 'l<'
+				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
+			Button:
+				text: '<<'
+				on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'decrement'})
+			Button:
+				text: 'play'
+				on_press: root.kodiRemote('Player.PlayPause', {'playerid': 1})
+			Button:
+				text: 'stop'
+				on_press: root.kodiRemote('Player.Stop', {'playerid': 1})
+			Button:
+				text: '>>'
+				on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'increment'})
+			Button:
+				text: '>l'
+				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'next'})
 
-			Slider:
-				size_hint_y: 0.1
+	BoxLayout:
+		spacing: 5
+		size_hint_x: 0.25
+		orientation: 'vertical'
+		Button:
+			text: 'home'
+			on_press: root.kodiRemote('Input.Home')
+		Button:
+			text: 'back'
+			on_press: root.kodiRemote('Input.Back')
+		Button:
+			text: 'osd'
+			on_press: root.kodiRemote('Input.ShowOSD')
+		Button:
+			text: 'info'
+			on_press: root.kodiRemote('Input.Info')
+		Button:
+			text: 'mute'
+			on_press: root.kodiRemote('Application.SetMute', {'mute': 'toggle'})
+		Button:
+			text: 'volume +'
+			on_press: root.kodiRemote('Application.SetVolume', {'volume': 'increment'})
+		Button:
+			text: 'volume -'
+			on_press: root.kodiRemote('Application.SetVolume', {'volume': 'decrement'})
+		Button:
+			text: 'ratio'
+			# TODO : not working
+			on_press: root.kodiRemote('Application.SendText', {'string': 'z'})
+		Button:
+			text: 'sous-titres'
 
-			BoxLayout:
-				size_hint_y: 0.1
-				Button:
-					text: 'l<'
-					on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
-				Button:
-					text: '<<'
-					on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'decrement'})
-				Button:
-					text: 'play'
-					on_press: root.kodiRemote('Player.PlayPause', {'playerid': 1})
-				Button:
-					text: 'stop'
-					on_press: root.kodiRemote('Player.Stop', {'playerid': 1})
-				Button:
-					text: '>>'
-					on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'increment'})
-				Button:
-					text: '>l'
-					on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'next'})
+# --------------------------------------
+# light panel
+# --------------------------------------
 
-		BoxLayout:
-			size_hint_x: 0.2
-			orientation: 'vertical'
-			Button:
-				text: 'home'
-				on_press: root.kodiRemote('Input.Home')
-			Button:
-				text: 'back'
-				on_press: root.kodiRemote('Input.Back')
-			Button:
-				text: 'osd'
-				on_press: root.kodiRemote('Input.ShowOSD')
-			Button:
-				text: 'info'
-				on_press: root.kodiRemote('Input.Info')
-			Button:
-				text: 'mute'
-				on_press: root.kodiRemote('Application.SetMute', {'mute': 'toggle'})
-			Button:
-				text: 'volume +'
-				on_press: root.kodiRemote('Application.SetVolume', {'volume': 'increment'})
-			Button:
-				text: 'volume -'
-				on_press: root.kodiRemote('Application.SetVolume', {'volume': 'decrement'})
-			Button:
-				text: 'zoom'
-			Button:
-				text: 'sous-titres'
+<LightSwitch>:
+	Label:
+		text: root.light.name
+
+<LightPanel>:
+	orientation: 'vertical'
+#	BoxLayout:
+#
+#		GridLayout:
+#			cols: 3
+#			Label:
+#				text: 'Salle à manger'
+#			Switch:
+#				width: 50
+#				on_active: root.switched(1, *args)
+#			Slider:
+#			Label:
+#				text: 'Lampadaire'
+#			Switch:
+#				width: 50
+#			Slider:
+#			Label:
+#				text: 'Salon'
+#			Switch:
+#				width: 50
+#			Slider:
+#			Label:
+#				text: 'Coffre'
+#			Switch:
+#				width: 50
+#			Slider:
+#			Label:
+#				text: 'TV'
+#			Switch:
+#				width: 50
+#			Slider:
+#
+#		BoxLayout:
+#			orientation: 'vertical'
+#			size_hint_x: 0.2
+#			Button:
+#				text: 'party'
+#				on_press: root.party()
+#			Button:
+#				text: 'info'
+#				on_press: root.info()
 
 # --------------------------------------
 # main panel TODO
@@ -111,12 +169,12 @@ Accordion:
 		Button:
 			text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 	AccordionItem:
+		title: 'Alarme'
+	AccordionItem:
+		title: 'Méteo'
+	AccordionItem:
 		title: 'Video'
 		VideoPanel:
 	AccordionItem:
 		title: 'Lumières'
-		ColorPicker:
-	AccordionItem:
-		title: 'Alarme'
-	AccordionItem:
-		title: 'Méteo'
+		LightPanel:
