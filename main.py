@@ -47,9 +47,6 @@ class VideoPanel(BoxLayout):
 # --- Philips Hue remote ---
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
-	
-	def switched(self, instance, value):
-		self.light.on = value
 
 class LightPanel(BoxLayout):
 	bridge = Bridge(HUE_IP)
@@ -60,13 +57,10 @@ class LightPanel(BoxLayout):
 			self.add_widget(LightSwitch(light=light))
 
 	def party(self):
-		lights = self.b.get_light_objects()
+		lights = self.bridge.get_light_objects()
 		for light in lights:
 			light.brightness = 254
 			light.xy = [random.random(), random.random()]
-
-	def info(self):
-		print(self.b.get_light_objects())
 
 
 # --- main ---

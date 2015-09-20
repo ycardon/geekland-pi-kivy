@@ -107,49 +107,28 @@
 <LightSwitch>:
 	Label:
 		text: root.light.name
-
+	Switch:
+		id: is_on
+		width: 50
+		active: root.light.on
+		on_active: root.light.on = self.active
+	Slider:
+		max: 254
+		step: 16
+		disabled: not(is_on.active)
+		value: root.light.brightness
+		on_value: root.light.brightness = int(self.value)
+				
 <LightPanel>:
 	orientation: 'vertical'
-#	BoxLayout:
-#
-#		GridLayout:
-#			cols: 3
-#			Label:
-#				text: 'Salle à manger'
-#			Switch:
-#				width: 50
-#				on_active: root.switched(1, *args)
-#			Slider:
-#			Label:
-#				text: 'Lampadaire'
-#			Switch:
-#				width: 50
-#			Slider:
-#			Label:
-#				text: 'Salon'
-#			Switch:
-#				width: 50
-#			Slider:
-#			Label:
-#				text: 'Coffre'
-#			Switch:
-#				width: 50
-#			Slider:
-#			Label:
-#				text: 'TV'
-#			Switch:
-#				width: 50
-#			Slider:
-#
-#		BoxLayout:
-#			orientation: 'vertical'
-#			size_hint_x: 0.2
-#			Button:
-#				text: 'party'
-#				on_press: root.party()
-#			Button:
-#				text: 'info'
-#				on_press: root.info()
+	padding: 5
+
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint_x: 0.2
+		Button:
+			text: 'party'
+			on_press: root.party()
 
 # --------------------------------------
 # main panel TODO
