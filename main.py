@@ -6,6 +6,8 @@ Geekland remote by Yann Cardon
 	https://github.com/ycardon
 using phue by Nathanaël Lécaudé
 	https://github.com/studioimaginaire/phue
+using rgb_cie by Benjamin Knight
+	https://github.com/benknight/hue-python-rgb-converter
 '''
 
 KODI_HOSTNAME = 'openelec.local'
@@ -19,10 +21,13 @@ from kivy.uix.widget import Widget
 from kivy.logger import Logger
 
 from phue import Bridge
+from rgb_cie import Converter
 
 import random
 import json
 import socket
+
+color_converter = Converter()
 
 # --- Kodi Remote ---
 class VideoPanel(BoxLayout):
@@ -47,14 +52,14 @@ class LightSwitch(BoxLayout):
 
 class LightPanel(BoxLayout):
 	lights = Bridge(HUE_HOSTNAME).get_light_objects()
-	childs = []
+	lightSwitchs = []
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
 		for light in self.lights:
-			child = LightSwitch(light=light)
-			self.add_widget(child)
-			self.childs.append(child)
+			ls = LightSwitch(light=light)
+			self.add_widget(ls)
+			self.lightSwitchs.append(ls)
 
 	def party(self):
 		for light in self.lights:
@@ -62,9 +67,14 @@ class LightPanel(BoxLayout):
 			light.xy = [random.random(), random.random()]
 
 	def all_on(self, value):
-		for child in self.childs:
-			child.ids.is_on.active = value
+		for ls in self.lightSwitchs:
+			ls.ids.is_on.active = value
 
+	def set_color(self):
+		xy = color_converter.hexToCIE1931(self.ids.color_picker.hex_color[1:])
+		for ls in self.lightSwitchs:
+			if ls.ids.is_colorable.active:
+				ls.light.xy = xy
 
 # --- main widget ---
 class GeeklandRemote(BoxLayout):
