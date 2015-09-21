@@ -29,18 +29,12 @@ class VideoPanel(BoxLayout):
 	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
 
 	def kodiRemote(self, key, param = None):
-#		def log(req, results):
-#			pass # TODO Logger.debug(results)
-
 		body = {'jsonrpc': '2.0', 'method': key, 'id': 1}
 		if param:
 			body.update({'params': param})
 
 		UrlRequest(
 			url = self.kody_url,
-#			on_success = log,
-#			on_failure = log,
-#			on_error = log,
 			req_body = json.dumps(body),
 			req_headers = {'Content-Type': 'application/json'},
 			debug = True
@@ -48,19 +42,19 @@ class VideoPanel(BoxLayout):
 
 
 # --- Philips Hue remote ---
-class KivyLight:
-	pass
-
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
 
 class LightPanel(BoxLayout):
 	lights = Bridge(HUE_HOSTNAME).get_light_objects()
+	childs = []
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
 		for light in self.lights:
-			self.add_widget(LightSwitch(light=light))
+			child = LightSwitch(light=light)
+			self.add_widget(child)
+			self.childs.append(child)
 
 	def party(self):
 		for light in self.lights:
@@ -68,8 +62,8 @@ class LightPanel(BoxLayout):
 			light.xy = [random.random(), random.random()]
 
 	def all_on(self, value):
-		for light in self.lights:
-			light.on = value
+		for child in self.childs:
+			child.ids.is_on.active = value
 
 
 # --- main widget ---

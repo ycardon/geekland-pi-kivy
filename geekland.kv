@@ -104,6 +104,7 @@
 # --------------------------------------
 
 <LightSwitch>:
+	id: 'light' # TODO needed if wrapper is not working
 	Label:
 		size_hint_x: 0.4
 		text: root.light.name
@@ -111,13 +112,13 @@
 		id: is_on
 		size_hint_x: 0.4
 		active: root.light.on
-		on_active: root.light.on = self.active
+		on_active: root.light.on = self.active # TODO needed if wrapper is working ?
 	Slider:
 		max: 254
 		step: 16
 		disabled: not(is_on.active)
 		value: root.light.brightness
-		on_value: root.light.brightness = int(self.value)
+		on_value: root.light.brightness = int(self.value) # TODO move to a pull request to phue
 
 <LightPanel>:
 	orientation: 'vertical'
