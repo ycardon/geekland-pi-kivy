@@ -12,7 +12,7 @@ KODI_HOSTNAME = 'openelec.local'
 HUE_HOSTNAME = '192.168.1.10'
 
 from kivy.app import App
-from kivy.properties import StringProperty, ObjectProperty
+from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
@@ -27,11 +27,10 @@ import socket
 # --- Kodi Remote ---
 class VideoPanel(BoxLayout):
 	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
-	print kody_url
 
 	def kodiRemote(self, key, param = None):
-		def log(req, results):
-			pass # TODO Logger.debug(results)
+#		def log(req, results):
+#			pass # TODO Logger.debug(results)
 
 		body = {'jsonrpc': '2.0', 'method': key, 'id': 1}
 		if param:
@@ -39,9 +38,9 @@ class VideoPanel(BoxLayout):
 
 		UrlRequest(
 			url = self.kody_url,
-			on_success = log,
-			on_failure = log,
-			on_error = log,
+#			on_success = log,
+#			on_failure = log,
+#			on_error = log,
 			req_body = json.dumps(body),
 			req_headers = {'Content-Type': 'application/json'},
 			debug = True
@@ -49,6 +48,9 @@ class VideoPanel(BoxLayout):
 
 
 # --- Philips Hue remote ---
+class KivyLight:
+	pass
+
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
 
@@ -61,10 +63,13 @@ class LightPanel(BoxLayout):
 			self.add_widget(LightSwitch(light=light))
 
 	def party(self):
-		lights = self.lights
-		for light in lights:
+		for light in self.lights:
 			light.brightness = 254
 			light.xy = [random.random(), random.random()]
+
+	def all_on(self, value):
+		for light in self.lights:
+			light.on = value
 
 
 # --- main widget ---

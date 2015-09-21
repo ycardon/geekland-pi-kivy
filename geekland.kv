@@ -124,11 +124,16 @@
 	padding: 5
 
 	BoxLayout:
-		orientation: 'vertical'
-		size_hint_x: 0.2
 		Button:
 			text: 'party'
 			on_press: root.party()
+		Button:
+			text: 'all on'
+			on_press: root.all_on(True)
+		Button:
+			text: 'all off'
+			on_press: root.all_on(False)
+
 
 # --------------------------------------
 # main panel TODO
