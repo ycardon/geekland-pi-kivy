@@ -3,11 +3,13 @@
 
 '''
 Geekland remote by Yann Cardon
-https://github.com/ycardon
+	https://github.com/ycardon
+using phue by Nathanaël Lécaudé
+	https://github.com/studioimaginaire/phue
 '''
 
-KODI_URL = 'http://192.168.1.27:80'
-HUE_IP = '192.168.1.10'
+KODI_HOSTNAME = 'openelec.local'
+HUE_HOSTNAME = '192.168.1.10'
 
 from kivy.app import App
 from kivy.properties import StringProperty, ObjectProperty
@@ -17,18 +19,20 @@ from kivy.logger import Logger
 from phue import Bridge
 import random
 import json
-
+import socket
 
 # --- Kodi Remote ---
 class VideoPanel(BoxLayout):
+	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
+	print kody_url
 
 	def kodiRemote_POST(self, body):
 		def log(req, results):
-			#Logger.debug(results)
+			# TODO Logger.debug(results)
 			pass
 
 		UrlRequest(
-			url = KODI_URL + '/jsonrpc',
+			url = self.kody_url,
 			on_success = log,
 			on_failure = log,
 			on_error = log,
@@ -49,15 +53,15 @@ class LightSwitch(BoxLayout):
 	light = ObjectProperty()
 
 class LightPanel(BoxLayout):
-	bridge = Bridge(HUE_IP)
+	lights = Bridge(HUE_HOSTNAME).get_light_objects()
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
-		for light in self.bridge.get_light_objects():
+		for light in self.lights:
 			self.add_widget(LightSwitch(light=light))
 
 	def party(self):
-		lights = self.bridge.get_light_objects()
+		lights = self.lights
 		for light in lights:
 			light.brightness = 254
 			light.xy = [random.random(), random.random()]

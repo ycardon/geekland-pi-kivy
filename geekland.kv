@@ -43,12 +43,12 @@
 				text: 'v'
 				on_press: root.kodiRemote('Input.Down')
 
-		Slider:
+		Slider: # TODO
 			size_hint_y: 0.1
 
 		BoxLayout:
 			size_hint_y: 0.1
-			spcing: 5
+			spacing: 5
 			Button:
 				text: 'l<'
 				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
@@ -93,11 +93,10 @@
 		Button:
 			text: 'volume -'
 			on_press: root.kodiRemote('Application.SetVolume', {'volume': 'decrement'})
-		Button:
+		Button: # TODO not working
 			text: 'ratio'
-			# TODO : not working
 			on_press: root.kodiRemote('Application.SendText', {'string': 'z'})
-		Button:
+		Button: # TODO
 			text: 'sous-titres'
 
 # --------------------------------------
@@ -118,7 +117,7 @@
 		disabled: not(is_on.active)
 		value: root.light.brightness
 		on_value: root.light.brightness = int(self.value)
-				
+
 <LightPanel>:
 	orientation: 'vertical'
 	padding: 5
