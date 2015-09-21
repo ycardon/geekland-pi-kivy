@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/kivy
 # -*- coding: utf-8 -*-
 
 '''
@@ -13,10 +13,13 @@ HUE_HOSTNAME = '192.168.1.10'
 
 from kivy.app import App
 from kivy.properties import StringProperty, ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
 from kivy.network.urlrequest import UrlRequest
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.widget import Widget
 from kivy.logger import Logger
+
 from phue import Bridge
+
 import random
 import json
 import socket
@@ -26,10 +29,13 @@ class VideoPanel(BoxLayout):
 	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
 	print kody_url
 
-	def kodiRemote_POST(self, body):
+	def kodiRemote(self, key, param = None):
 		def log(req, results):
-			# TODO Logger.debug(results)
-			pass
+			pass # TODO Logger.debug(results)
+
+		body = {'jsonrpc': '2.0', 'method': key, 'id': 1}
+		if param:
+			body.update({'params': param})
 
 		UrlRequest(
 			url = self.kody_url,
@@ -40,12 +46,6 @@ class VideoPanel(BoxLayout):
 			req_headers = {'Content-Type': 'application/json'},
 			debug = True
 		)
-
-	def kodiRemote(self, key, param = None):
-		body = {'jsonrpc': '2.0', 'method': key, 'id': 1}
-		if param:
-			body.update({'params': param})
-		self.kodiRemote_POST(body)
 
 
 # --- Philips Hue remote ---
@@ -67,9 +67,14 @@ class LightPanel(BoxLayout):
 			light.xy = [random.random(), random.random()]
 
 
-# --- main ---
-class GeeklandApp(App):
+# --- main widget ---
+class GeeklandRemote(BoxLayout):
 	pass
+
+# --- main app ---
+class GeeklandApp(App):
+	def build(self):
+		return GeeklandRemote()
 
 if __name__ == '__main__':
 	GeeklandApp().run()

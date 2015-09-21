@@ -133,8 +133,7 @@
 # main panel TODO
 # --------------------------------------
 
-Accordion:
-
+<GeeklandRemote>:
 	canvas.before:
 		Color:
 			rgb: .6, .6, .6
@@ -142,17 +141,18 @@ Accordion:
 			size: self.size
 			source: 'images/background.png'
 
-	AccordionItem:
-		title: 'Infos'
-		Button:
-			text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-	AccordionItem:
-		title: 'Alarme'
-	AccordionItem:
-		title: 'Méteo'
-	AccordionItem:
-		title: 'Video'
-		VideoPanel:
-	AccordionItem:
-		title: 'Lumières'
-		LightPanel:
+	Accordion:
+		AccordionItem:
+			title: 'Infos'
+			Button:
+				text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+		AccordionItem:
+			title: 'Alarme'
+		AccordionItem:
+			title: 'Méteo'
+		AccordionItem:
+			title: 'Video'
+			VideoPanel:
+		AccordionItem:
+			title: 'Lumières'
+			LightPanel:
