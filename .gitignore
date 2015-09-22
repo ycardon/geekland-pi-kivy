@@ -1,2 +1,4 @@
 
 *.pyc
+phue.pyc
+rgb_cie.pyc
