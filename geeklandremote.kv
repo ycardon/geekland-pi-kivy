@@ -11,94 +11,99 @@
 <Spacer@Widget>:
 	disabled: True
 
-<VideoButton@Button>:
+<NavButton@Button>:
 	font_name: 'Glyph'
 	font_size: '80sp'
-	background_color: (1, 1, 1, 0.2) # (0.5, 0.5, 0.5, 0.5)
+
+<VideoButton@Button>:
+	font_name: 'Glyph'
+	font_size: '26sp'
+
+<GlyphButton@Button>:
+	font_name: 'Glyph'
+	font_size: '26sp'
 
 <VideoPanel>:
 	padding: 5
-	spacing: 5
 
 	BoxLayout:
+		spacing: 5
 		orientation: 'vertical'
 		GridLayout:
 			cols:3
 			spacing: 5
+			padding: (40, 10)
 			Spacer:
-			VideoButton:
-				text: u'\uE253' # ^
+			NavButton:
+				text: u'\uE253' # '^'
 				on_press: root.kodiRemote('Input.Up')
 			Spacer:
-			VideoButton:
-				text: u'\uE251' # >
+			NavButton:
+				text: u'\uE251' # '>'
 				on_press: root.kodiRemote('Input.Left')
-			VideoButton:
-				text: u'\uE165' # ok
+			NavButton:
+				text: u'\uE165' # 'ok'
 				on_press: root.kodiRemote('Input.Select')
-			VideoButton:
-				text: u'\uE250' # <
+			NavButton:
+				text: u'\uE250' # '<'
 				on_press: root.kodiRemote('Input.Right')
 			Spacer:
-			VideoButton:
-				text: u'\uE252' # v
+			NavButton:
+				text: u'\uE252' # 'v'
 				on_press: root.kodiRemote('Input.Down')
 
-		Slider: # TODO
-			size_hint_y: 0.1
-
 		BoxLayout:
-			size_hint_y: 0.1
+			size_hint_y: 0.15
 			spacing: 5
-			Button:
-				text: 'l<'
+			VideoButton:
+				text: u'\uE070' # 'l<'
 				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
-			Button:
-				text: '<<'
+			VideoButton:
+				text: u'\uE071' # '<<'
 				on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'decrement'})
-			Button:
-				text: 'play'
+			VideoButton:
+				text: u'\uE072\uE073' # 'play'
 				on_press: root.kodiRemote('Player.PlayPause', {'playerid': 1})
-			Button:
-				text: 'stop'
+			VideoButton:
+				text: u'\uE074' # 'stop'
 				on_press: root.kodiRemote('Player.Stop', {'playerid': 1})
-			Button:
-				text: '>>'
+			VideoButton:
+				text: u'\uE075' # '>>'
 				on_press: root.kodiRemote('Player.SetSpeed', {'playerid': 1, 'speed': 'increment'})
-			Button:
-				text: '>l'
+			VideoButton:
+				text: u'\uE076' # '>l'
 				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'next'})
+
+	Slider: # TODO
+		orientation: 'vertical'
+		size_hint_x: 0.1
 
 	BoxLayout:
 		spacing: 5
-		size_hint_x: 0.4
+		size_hint_x: 0.2
 		orientation: 'vertical'
-		Button:
-			text: 'home'
+		GlyphButton:
+			text: u'\uE021' # 'home'
 			on_press: root.kodiRemote('Input.Home')
-		Button:
-			text: 'back'
+		GlyphButton:
+			text: u'\uE095' # 'back'
 			on_press: root.kodiRemote('Input.Back')
-		Button:
-			text: 'osd'
+		GlyphButton:
+			text: u'\uE177' # 'osd'
 			on_press: root.kodiRemote('Input.ShowOSD')
-		Button:
-			text: 'info'
+		GlyphButton:
+			text: u'\uE105' # 'info'
 			on_press: root.kodiRemote('Input.Info')
-		Button:
-			text: 'mute'
-			on_press: root.kodiRemote('Application.SetMute', {'mute': 'toggle'})
-		Button:
-			text: 'volume +'
+		GlyphButton:
+			text: u'\uE038' # 'volume +'
 			on_press: root.kodiRemote('Application.SetVolume', {'volume': 'increment'})
-		Button:
-			text: 'volume -'
+		GlyphButton:
+			text: u'\uE037' # 'volume -'
 			on_press: root.kodiRemote('Application.SetVolume', {'volume': 'decrement'})
-		Button: # TODO not working
-			text: 'ratio'
-			on_press: root.kodiRemote('Application.SendText', {'string': 'z'})
-		Button: # TODO
-			text: 'sous-titres'
+		GlyphButton:
+			text: u'\uE036' # 'mute'
+			on_press: root.kodiRemote('Application.SetMute', {'mute': 'toggle'})
+
 
 # --------------------------------------
 # light panel
@@ -122,7 +127,7 @@
 		on_value: root.light.brightness = int(self.value)
 	CheckBox:
 		id: is_colorable
-		active: True
+		#active: True
 		size_hint_x: 0.1
 
 
