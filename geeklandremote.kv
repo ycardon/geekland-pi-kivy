@@ -12,8 +12,9 @@
 	disabled: True
 
 <VideoButton@Button>:
-	font_size: '50sp'
-	background_color: (0.5, 0.5, 0.5, 0.5)
+	font_name: 'Glyph'
+	font_size: '80sp'
+	background_color: (1, 1, 1, 0.2) # (0.5, 0.5, 0.5, 0.5)
 
 <VideoPanel>:
 	padding: 5
@@ -26,21 +27,21 @@
 			spacing: 5
 			Spacer:
 			VideoButton:
-				text: '^'
+				text: u'\uE253' # ^
 				on_press: root.kodiRemote('Input.Up')
 			Spacer:
 			VideoButton:
-				text: '<'
+				text: u'\uE251' # >
 				on_press: root.kodiRemote('Input.Left')
 			VideoButton:
-				text: 'ok'
+				text: u'\uE165' # ok
 				on_press: root.kodiRemote('Input.Select')
 			VideoButton:
-				text: '>'
+				text: u'\uE250' # <
 				on_press: root.kodiRemote('Input.Right')
 			Spacer:
 			VideoButton:
-				text: 'v'
+				text: u'\uE252' # v
 				on_press: root.kodiRemote('Input.Down')
 
 		Slider: # TODO
@@ -121,6 +122,7 @@
 		on_value: root.light.brightness = int(self.value)
 	CheckBox:
 		id: is_colorable
+		active: True
 		size_hint_x: 0.1
 
 

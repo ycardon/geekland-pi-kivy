@@ -11,14 +11,20 @@ using rgb_cie by Benjamin Knight
 '''
 
 KODI_HOSTNAME = 'openelec.local'
+
 HUE_HOSTNAME = '192.168.1.10'
+
+KIVY_FONTS = [{
+		'name': 'Glyph',
+		'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'
+	}]
 
 from kivy.app import App
 from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
-from kivy.logger import Logger
+from kivy.core.text import LabelBase
 
 from phue import Bridge
 from rgb_cie import Converter
@@ -27,10 +33,14 @@ import random
 import json
 import socket
 
+
+# --- Init ---
+for font in KIVY_FONTS:
+	LabelBase.register(**font)
+
 color_converter = Converter()
 
 # --- Kodi Remote ---
-
 class VideoPanel(BoxLayout):
 	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
 
