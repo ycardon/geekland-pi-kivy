@@ -30,6 +30,7 @@ import socket
 color_converter = Converter()
 
 # --- Kodi Remote ---
+
 class VideoPanel(BoxLayout):
 	kody_url = 'http://' + socket.gethostbyname(KODI_HOSTNAME) + ':80/jsonrpc'
 
@@ -52,7 +53,7 @@ class LightSwitch(BoxLayout):
 
 class LightPanel(BoxLayout):
 	lights = Bridge(HUE_HOSTNAME).get_light_objects()
-	lightSwitchs = []
+	lightSwitchs = ()
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
@@ -76,12 +77,13 @@ class LightPanel(BoxLayout):
 			if ls.ids.is_colorable.active:
 				ls.light.xy = xy
 
+
 # --- main widget ---
 class GeeklandRemote(BoxLayout):
 	pass
 
 # --- main app ---
-class GeeklandApp(App):
+class GeeklandRemoteApp(App):
 	def build(self):
 		return GeeklandRemote()
 
