@@ -175,8 +175,15 @@
 	Accordion:
 		AccordionItem:
 			title: 'Main'
-			Label:
-				text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+			BoxLayout:
+				orientation: 'vertical'
+				Spacer:
+				Label:
+					text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+				Button:
+					text: 'exit'
+					on_press: quit()
+				Spacer:
 		AccordionItem:
 			title: 'Meteo'
 			Label:
