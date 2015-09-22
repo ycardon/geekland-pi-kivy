@@ -1,4 +1,4 @@
-#!/usr/bin/kivy
+#!/usr/local/bin/kivy
 # -*- coding: utf-8 -*-
 
 '''
@@ -53,7 +53,7 @@ class LightSwitch(BoxLayout):
 
 class LightPanel(BoxLayout):
 	lights = Bridge(HUE_HOSTNAME).get_light_objects()
-	lightSwitchs = ()
+	lightSwitchs = []
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
@@ -88,4 +88,4 @@ class GeeklandRemoteApp(App):
 		return GeeklandRemote()
 
 if __name__ == '__main__':
-	GeeklandApp().run()
+	GeeklandRemoteApp().run()
