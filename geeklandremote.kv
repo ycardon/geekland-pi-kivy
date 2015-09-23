@@ -22,6 +22,45 @@
 	font_name: 'Glyph'
 	font_size: '26sp'
 
+<GlyphButton2@Button>:
+	background_color: (0,0,0,0)
+	color: (0,0,0,0.3)
+	padding: (5,0)
+	text_size: self.size
+	halign: 'right'
+	font_name: 'Glyph'
+	font_size: '20sp'
+
+# --------------------------------------
+# main panel
+# --------------------------------------
+
+<MainPanel@BoxLayout>:
+	orientation: 'vertical'
+
+	Spacer:
+	Label:
+		text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+	Spacer:
+	Button:
+		text: 'exit'
+		on_press: quit()
+
+# --------------------------------------
+# weather panel
+# --------------------------------------
+
+<WeatherPanel>:
+	orientation: 'vertical'
+
+	Spacer:
+	Label:
+		text: str.format('temperature: {0}°C', root.temperature)
+	Spacer:
+	Button:
+		text: 'update'
+		on_press: root.getWeather()
+
 # --------------------------------------
 # video panel
 # --------------------------------------
@@ -155,22 +194,25 @@
 		BoxLayout:
 			size_hint_x: 0.2
 			orientation: 'vertical'
-			spacing: 5
-			Button:
-				text: 'select all'
+
+			GlyphButton2:
+				text: u'\uE089' # 'select all'
 				on_press: root.check_all(True)
+			GlyphButton2:
+				text: u'\uE088' # 'select none'
+				on_press: root.check_all(False)
+			GlyphButton2:
+				text: u'\uE110' # 'inverse'
+				on_press: root.check_all(None)
+			Spacer
 			Button:
-				text: 'select none'
-				on_press: root.check_all(True)
-			Spacer:
-			Button:
-				text: 'party'
+				text: 'party' #u'\uE102'
 				on_press: root.party()
 			Button:
-				text: 'all on'
+				text: 'on' #u'\uE013' # 'all on'
 				on_press: root.all_on(True)
 			Button:
-				text: 'all off'
+				text: 'off' #u'\uE014'
 				on_press: root.all_on(False)
 
 
@@ -189,19 +231,10 @@
 	Accordion:
 		AccordionItem:
 			title: 'Main'
-			BoxLayout:
-				orientation: 'vertical'
-				Spacer:
-				Label:
-					text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-				Button:
-					text: 'exit'
-					on_press: quit()
-				Spacer:
+			MainPanel:
 		AccordionItem:
 			title: 'Meteo'
-			Label:
-				text: 'trop beau'
+			WeatherPanel:
 		AccordionItem:
 			title: 'Kodi'
 			VideoPanel:

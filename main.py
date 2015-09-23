@@ -10,17 +10,8 @@ using rgb_cie by Benjamin Knight
 	https://github.com/benknight/hue-python-rgb-converter
 '''
 
-KODI_HOSTNAME = 'openelec.local'
-
-HUE_HOSTNAME = '192.168.1.10'
-
-KIVY_FONTS = [{
-		'name': 'Glyph',
-		'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'
-	}]
-
 from kivy.app import App
-from kivy.properties import BooleanProperty, ObjectProperty
+from kivy.properties import BooleanProperty, StringProperty, NumericProperty, ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
@@ -28,17 +19,41 @@ from kivy.core.text import LabelBase
 
 from phue import Bridge
 from rgb_cie import Converter
+from ConfigParser import ConfigParser
 
 import random
 import json
 import socket
 
-
 # --- Init ---
+config = ConfigParser()
+config.read('geeklandremote.ini')
+KODI_HOSTNAME = config.get('kodi', 'hostname')
+HUE_HOSTNAME = config.get('hue', 'hostname')
+FORECAST_URL = str.format(
+	'https://api.forecast.io/forecast/{0}/{1},{2}?units=si',
+	config.get('forecast', 'api_key'),
+	config.get('forecast', 'latitude'),
+	config.get('forecast', 'longitude'))
+
+color_converter = Converter()
+
+KIVY_FONTS = [{'name': 'Glyph', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'}]
 for font in KIVY_FONTS:
 	LabelBase.register(**font)
 
-color_converter = Converter()
+
+# --- Weather ---
+class WeatherPanel(BoxLayout):
+	temperature = NumericProperty()
+
+	def getWeatherCallback(self, req, results):
+		print(results)
+		self.temperature = results['hourly']['data'][0]['temperature']
+
+	def getWeather(self):
+		UrlRequest(FORECAST_URL, self.getWeatherCallback)
+
 
 # --- Kodi Remote ---
 class VideoPanel(BoxLayout):
@@ -62,20 +77,19 @@ class LightSwitch(BoxLayout):
 	light = ObjectProperty()
 
 class LightPanel(BoxLayout):
-	lights = Bridge(HUE_HOSTNAME).get_light_objects()
 	lightSwitchs = []
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
-		for light in self.lights:
+		for light in Bridge(HUE_HOSTNAME).get_light_objects():
 			ls = LightSwitch(light=light)
 			self.add_widget(ls)
 			self.lightSwitchs.append(ls)
 
 	def party(self):
-		for light in self.lights:
-			light.brightness = 254
-			light.xy = [random.random(), random.random()]
+		for ls in self.lightSwitchs:
+			ls.light.brightness = 254
+			ls.light.xy = [random.random(), random.random()]
 
 	def all_on(self, value):
 		for ls in self.lightSwitchs:
@@ -86,6 +100,13 @@ class LightPanel(BoxLayout):
 		for ls in self.lightSwitchs:
 			if ls.ids.is_colorable.active:
 				ls.light.xy = xy
+
+	def check_all(self, value):
+		for ls in self.lightSwitchs:
+			if value == None:
+				ls.ids.is_colorable.active = not(ls.ids.is_colorable.active)
+			else:
+				ls.ids.is_colorable.active = value
 
 
 # --- main widget ---

@@ -2,3 +2,5 @@
 *.pyc
 phue.pyc
 rgb_cie.pyc
+
+geeklandremote.ini

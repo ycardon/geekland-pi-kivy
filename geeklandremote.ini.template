@@ -1,0 +1,11 @@
+
+[kodi]
+hostname: openelec.local
+
+[hue]
+hostname: 192.168.0.1
+
+[forecast]
+api_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+latitude: 45.2
+longitude: 0.42
