@@ -1,11 +1,10 @@
 #:kivy 1.0.9
 #:import gmtime time.gmtime
 #:import strftime time.strftime
-#:import Light phue.Light
 
 
 # --------------------------------------
-# video panel
+# Templates
 # --------------------------------------
 
 <Spacer@Widget>:
@@ -23,16 +22,22 @@
 	font_name: 'Glyph'
 	font_size: '26sp'
 
+# --------------------------------------
+# video panel
+# --------------------------------------
+
 <VideoPanel>:
 	padding: 5
 
 	BoxLayout:
 		spacing: 5
 		orientation: 'vertical'
+
 		GridLayout:
 			cols:3
 			spacing: 5
 			padding: (40, 10)
+
 			Spacer:
 			NavButton:
 				text: u'\uE253' # '^'
@@ -55,6 +60,7 @@
 		BoxLayout:
 			size_hint_y: 0.15
 			spacing: 5
+
 			VideoButton:
 				text: u'\uE070' # 'l<'
 				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'previous'})
@@ -82,6 +88,7 @@
 		spacing: 5
 		size_hint_x: 0.2
 		orientation: 'vertical'
+
 		GlyphButton:
 			text: u'\uE021' # 'home'
 			on_press: root.kodiRemote('Input.Home')
@@ -111,6 +118,7 @@
 
 <LightSwitch>:
 	size_hint_y: 0.2
+
 	Label:
 		size_hint_x: 0.4
 		text: root.light.name
@@ -137,6 +145,7 @@
 
 	BoxLayout:
 		spacing: 5
+
 		BoxLayout:
 			ColorPicker:
 				id: color_picker
@@ -147,6 +156,12 @@
 			size_hint_x: 0.2
 			orientation: 'vertical'
 			spacing: 5
+			Button:
+				text: 'select all'
+				on_press: root.check_all(True)
+			Button:
+				text: 'select none'
+				on_press: root.check_all(True)
 			Spacer:
 			Button:
 				text: 'party'
@@ -157,7 +172,6 @@
 			Button:
 				text: 'all off'
 				on_press: root.all_on(False)
-			Spacer:
 
 
 # --------------------------------------
