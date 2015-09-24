@@ -24,6 +24,7 @@ from ConfigParser import ConfigParser
 import random
 import json
 import socket
+import time
 
 # --- Init ---
 config = ConfigParser()
@@ -41,6 +42,14 @@ color_converter = Converter()
 KIVY_FONTS = [{'name': 'Glyph', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'}]
 for font in KIVY_FONTS:
 	LabelBase.register(**font)
+
+while True:
+	try:
+		socket.gethostbyname(KODI_HOSTNAME)
+		break
+	except:
+		print('GeeklandRemote is waiting for network')
+		time.sleep(1)
 
 
 # --- Weather ---
