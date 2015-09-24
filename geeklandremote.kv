@@ -35,12 +35,14 @@
 # main panel
 # --------------------------------------
 
-<MainPanel@BoxLayout>:
+<MainPanel>:
 	orientation: 'vertical'
 
 	Spacer:
 	Label:
-		text: strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+		text: strftime('time : %a, %d %b %Y %H:%M:%S +0000', gmtime())
+	Label:
+		text: 'IP :   ' + root.ip
 	Spacer:
 	Button:
 		text: 'exit'
