@@ -11,24 +11,25 @@
 	disabled: True
 
 <NavButton@Button>:
-	font_name: 'Glyph'
+	font_name: 'Glyphicons'
 	font_size: '80sp'
 
 <VideoButton@Button>:
-	font_name: 'Glyph'
+	font_name: 'Glyphicons'
 	font_size: '26sp'
 
 <GlyphButton@Button>:
-	font_name: 'Glyph'
+	font_name: 'Glyphicons'
 	font_size: '26sp'
 
 <GlyphButton2@Button>:
+	size_hint_y: 0.7
 	background_color: (0,0,0,0)
 	color: (0,0,0,0.3)
 	padding: (5,0)
 	text_size: self.size
 	halign: 'right'
-	font_name: 'Glyph'
+	font_name: 'Octicons'
 	font_size: '20sp'
 
 # --------------------------------------
@@ -200,23 +201,28 @@
 			orientation: 'vertical'
 
 			GlyphButton2:
-				text: u'\uE089' # 'select all'
+				font_size: '27sp'
+				text: u'\uF05C' # 'select all'
 				on_press: root.check_all(True)
 			GlyphButton2:
-				text: u'\uE088' # 'select none'
+				text: u'\uF084' # 'select none'
 				on_press: root.check_all(False)
 			GlyphButton2:
-				text: u'\uE110' # 'inverse'
+				text: u'\uF087' # 'inverse'
 				on_press: root.check_all(None)
-			Spacer
+			Spacer:
+				size_hint_y: 0.4
 			Button:
-				text: 'party' #u'\uE102'
-				on_press: root.party()
+				font_name: 'Octicons'
+				text: u'\uF052' # 'bright'
+				on_press: root.preset_bright()
 			Button:
-				text: 'on' #u'\uE013' # 'all on'
-				on_press: root.all_on(True)
+				font_name: 'Octicons'
+				text: u'\uF052\n\uF052' # 'soft'
+				on_press: root.preset_soft()
 			Button:
-				text: 'off' #u'\uE014'
+				font_name: 'Octicons'
+				text: u'\uF081' # 'off'
 				on_press: root.all_on(False)
 
 

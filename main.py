@@ -21,7 +21,6 @@ from phue import Bridge
 from rgb_cie import Converter
 from ConfigParser import ConfigParser
 
-import random
 import json
 import socket
 import time
@@ -39,7 +38,9 @@ FORECAST_URL = str.format(
 
 color_converter = Converter()
 
-KIVY_FONTS = [{'name': 'Glyph', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'}]
+KIVY_FONTS = [
+	{'name': 'Glyphicons', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'},
+	{'name': 'Octicon', 'fn_regular': 'fonts/octicons.ttf'}]
 for font in KIVY_FONTS:
 	LabelBase.register(**font)
 
@@ -112,12 +113,6 @@ class LightPanel(BoxLayout):
 			self.add_widget(ls)
 			self.lightSwitchs.append(ls)
 
-	# random color
-	def party(self):
-		for ls in self.lightSwitchs:
-			ls.light.brightness = 254
-			ls.light.xy = [random.random(), random.random()]
-
 	# light all/none
 	def all_on(self, value):
 		for ls in self.lightSwitchs:
@@ -137,6 +132,20 @@ class LightPanel(BoxLayout):
 				ls.ids.is_linked.active = not(ls.ids.is_linked.active)
 			else:
 				ls.ids.is_linked.active = value
+
+	# apply preset to all lights
+	def preset(self, hex_color, brightness):
+		xy = color_converter.hexToCIE1931(hex_color[1:])
+		for ls in self.lightSwitchs:
+			ls.ids.is_on.active = True
+			ls.ids.is_brightness.value = brightness
+			ls.light.xy = xy
+
+	def preset_bright(self):
+		self.preset('#ffdfcc', 254)
+
+	def preset_soft(self):
+		self.preset('#ff9f65', 20)
 
 
 # --- main widget ---
