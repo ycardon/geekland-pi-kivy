@@ -167,15 +167,16 @@
 		id: is_on
 		size_hint_x: 0.4
 		active: root.light.on
-		on_active: root.light.on = self.active
+		on_active: root.set_on(self.active)
 	Slider:
+		id: is_brightness
 		max: 254
 		step: 16
 		disabled: not(is_on.active)
 		value: root.light.brightness
 		on_value: root.light.brightness = int(self.value)
 	CheckBox:
-		id: is_colorable
+		id: is_linked
 		#active: True
 		size_hint_x: 0.1
 

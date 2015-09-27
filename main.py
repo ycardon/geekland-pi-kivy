@@ -11,7 +11,7 @@ using rgb_cie by Benjamin Knight
 '''
 
 from kivy.app import App
-from kivy.properties import BooleanProperty, StringProperty, NumericProperty, ObjectProperty
+from kivy.properties import BooleanProperty, StringProperty, NumericProperty, ObjectProperty, ListProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
@@ -87,9 +87,33 @@ class VideoPanel(BoxLayout):
 # --- Philips Hue remote ---
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
+	is_touched = False
+
+	def on_touch_down(self, touch):
+		if super(LightSwitch, self).on_touch_down(touch):
+			self.is_touched = True
+
+	def on_touch_up(self, touch):
+		self.is_touched = False
+		super(LightSwitch, self).on_touch_down(touch)
+
+
+	def set_on(self, active):
+		self.light.on = active
+		if self.is_touched:
+			print('switching linked')
+			for ls in parent.lightSwitchs:
+				if ls.ids.is_linked.active:
+					ls.ids.is_on.active = active
+		else:
+			self.ids.is_on.active = active
+
+
+
+
 
 class LightPanel(BoxLayout):
-	lightSwitchs = []
+	lightSwitchs = ListProperty()
 
 	def __init__(self, **kwargs):
 		super(LightPanel, self).__init__(**kwargs)
@@ -110,15 +134,15 @@ class LightPanel(BoxLayout):
 	def set_color(self):
 		xy = color_converter.hexToCIE1931(self.ids.color_picker.hex_color[1:])
 		for ls in self.lightSwitchs:
-			if ls.ids.is_colorable.active:
+			if ls.ids.is_linked.active:
 				ls.light.xy = xy
 
 	def check_all(self, value):
 		for ls in self.lightSwitchs:
 			if value == None:
-				ls.ids.is_colorable.active = not(ls.ids.is_colorable.active)
+				ls.ids.is_linked.active = not(ls.ids.is_linked.active)
 			else:
-				ls.ids.is_colorable.active = value
+				ls.ids.is_linked.active = value
 
 
 # --- main widget ---
