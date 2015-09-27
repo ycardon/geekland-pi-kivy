@@ -88,12 +88,14 @@ class VideoPanel(BoxLayout):
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
 
+	# set light and linked lights on/off
 	def set_on(self, active):
 		self.light.on = active
 		for ls in self.parent.lightSwitchs:
 			if ls.ids.is_linked.active:
 				ls.ids.is_on.active = active
 
+	# set light and linked lights brightness
 	def set_brightness(self, value):
 		self.light.brightness = int(value)
 		for ls in self.parent.lightSwitchs:
@@ -110,21 +112,25 @@ class LightPanel(BoxLayout):
 			self.add_widget(ls)
 			self.lightSwitchs.append(ls)
 
+	# random color
 	def party(self):
 		for ls in self.lightSwitchs:
 			ls.light.brightness = 254
 			ls.light.xy = [random.random(), random.random()]
 
+	# light all/none
 	def all_on(self, value):
 		for ls in self.lightSwitchs:
 			ls.ids.is_on.active = value
 
+	# set colors for selected lights
 	def set_color(self):
 		xy = color_converter.hexToCIE1931(self.ids.color_picker.hex_color[1:])
 		for ls in self.lightSwitchs:
 			if ls.ids.is_linked.active:
 				ls.light.xy = xy
 
+	# select all/none/invert lights
 	def check_all(self, value):
 		for ls in self.lightSwitchs:
 			if value == None:

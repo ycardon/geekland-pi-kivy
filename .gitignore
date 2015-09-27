@@ -6,3 +6,5 @@ rgb_cie.pyc
 geeklandremote.ini
 
 geekland-remote.command
+
+deploy.command
