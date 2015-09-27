@@ -174,7 +174,7 @@
 		step: 16
 		disabled: not(is_on.active)
 		value: root.light.brightness
-		on_value: root.light.brightness = int(self.value)
+		on_value: root.set_brightness(self.value)
 	CheckBox:
 		id: is_linked
 		#active: True
@@ -240,6 +240,7 @@
 			WeatherPanel:
 		AccordionItem:
 			title: 'Kodi'
+			collapse: False
 			VideoPanel:
 		AccordionItem:
 			title: 'Hue'

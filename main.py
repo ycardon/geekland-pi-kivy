@@ -87,30 +87,18 @@ class VideoPanel(BoxLayout):
 # --- Philips Hue remote ---
 class LightSwitch(BoxLayout):
 	light = ObjectProperty()
-	is_touched = False
-
-	def on_touch_down(self, touch):
-		if super(LightSwitch, self).on_touch_down(touch):
-			self.is_touched = True
-
-	def on_touch_up(self, touch):
-		self.is_touched = False
-		super(LightSwitch, self).on_touch_down(touch)
-
 
 	def set_on(self, active):
 		self.light.on = active
-		if self.is_touched:
-			print('switching linked')
-			for ls in parent.lightSwitchs:
-				if ls.ids.is_linked.active:
-					ls.ids.is_on.active = active
-		else:
-			self.ids.is_on.active = active
+		for ls in self.parent.lightSwitchs:
+			if ls.ids.is_linked.active:
+				ls.ids.is_on.active = active
 
-
-
-
+	def set_brightness(self, value):
+		self.light.brightness = int(value)
+		for ls in self.parent.lightSwitchs:
+			if ls.ids.is_linked.active:
+				ls.ids.is_brightness.value = value
 
 class LightPanel(BoxLayout):
 	lightSwitchs = ListProperty()
