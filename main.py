@@ -40,7 +40,7 @@ color_converter = Converter()
 
 KIVY_FONTS = [
 	{'name': 'Glyphicons', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'},
-	{'name': 'Octicon', 'fn_regular': 'fonts/octicons.ttf'}]
+	{'name': 'Octicons', 'fn_regular': 'fonts/octicons.ttf'}]
 for font in KIVY_FONTS:
 	LabelBase.register(**font)
 
