@@ -41,7 +41,7 @@
 
 	Spacer:
 	Label:
-		text: strftime('time : %a, %d %b %Y %H:%M:%S +0000', gmtime())
+		text: strftime('time : %a, %d %b %Y %H:%M:%S +0000', gmtime()) # TODO update time
 	Label:
 		text: 'IP :   ' + root.ip
 	Spacer:
@@ -122,7 +122,7 @@
 				text: u'\uE076' # '>l'
 				on_press: root.kodiRemote('Player.Goto', {'playerid': 1, 'to': 'next'})
 
-	Slider: # TODO
+	Slider: # TODO implement a seek bar
 		orientation: 'vertical'
 		disabled: True
 		size_hint_x: 0.1
@@ -211,7 +211,7 @@
 				text: u'\uF087' # 'inverse'
 				on_press: root.check_all(None)
 			Spacer:
-				size_hint_y: 0.4
+				size_hint_y: 0.35
 			Button:
 				font_name: 'Octicons'
 				text: u'\uF052' # 'bright'

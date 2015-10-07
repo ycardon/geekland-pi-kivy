@@ -26,6 +26,8 @@ import socket
 import time
 
 # --- Init ---
+
+# consts from config file
 config = ConfigParser()
 config.read('geeklandremote.ini')
 KODI_HOSTNAME = config.get('kodi', 'hostname')
@@ -36,14 +38,17 @@ FORECAST_URL = str.format(
 	config.get('forecast', 'latitude'),
 	config.get('forecast', 'longitude'))
 
+# factories
 color_converter = Converter()
 
+# fonts
 KIVY_FONTS = [
 	{'name': 'Glyphicons', 'fn_regular': 'fonts/glyphicons-halflings-regular.ttf'},
 	{'name': 'Octicons', 'fn_regular': 'fonts/octicons.ttf'}]
 for font in KIVY_FONTS:
 	LabelBase.register(**font)
 
+# waiting for network
 while True:
 	try:
 		socket.gethostbyname(KODI_HOSTNAME)
@@ -51,6 +56,7 @@ while True:
 	except:
 		print('GeeklandRemote is waiting for network')
 		time.sleep(1)
+
 
 # --- Main ---
 class MainPanel(BoxLayout):
@@ -87,7 +93,7 @@ class VideoPanel(BoxLayout):
 
 # --- Philips Hue remote ---
 class LightSwitch(BoxLayout):
-	light = ObjectProperty()
+	light = ObjectProperty() # FIXME useful ?
 
 	# set light and linked lights on/off
 	def set_on(self, active):
