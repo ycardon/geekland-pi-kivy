@@ -96,14 +96,14 @@ class LightSwitch(BoxLayout):
 	light = ObjectProperty() # FIXME useful ?
 
 	# set light and linked lights on/off
-	def set_on(self, active):
+	def set_on(self, active): # TODO potential loop
 		self.light.on = active
 		for ls in self.parent.lightSwitchs:
 			if ls.ids.is_linked.active:
 				ls.ids.is_on.active = active
 
 	# set light and linked lights brightness
-	def set_brightness(self, value):
+	def set_brightness(self, value): # TODO potential loop
 		self.light.brightness = int(value)
 		for ls in self.parent.lightSwitchs:
 			if ls.ids.is_linked.active:
